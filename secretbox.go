@@ -26,6 +26,9 @@ func NewFromHexKey(key string) (*SecretBox, error) {
 		return nil, err
 	}
 	s := &SecretBox{}
+	if len(secretKeyBytes) != 32 {
+		return nil, fmt.Errorf("key is not 32-byte")
+	}
 	copy(s.key[:], secretKeyBytes)
 	return s, nil
 }

@@ -29,6 +29,13 @@ func TestSecretBox(t *testing.T) {
 	}
 }
 
+func TestSecretBox_InvalidKey(t *testing.T) {
+	_, err := NewFromHexKey("")
+	if err == nil {
+		t.Fatal("want error")
+	}
+}
+
 func ExampleEncrypt() {
 	const key = "0f5297b6f0114171e9de547801b1e8bb929fe1d091e63c6377a392ec1baa3d0b"
 	s, err := NewFromHexKey(key)
