@@ -1,3 +1,5 @@
+// Package secretbox provides utility wrapper of
+// https://godoc.org/golang.org/x/crypto/nacl/secretbox
 package secretbox
 
 import (
