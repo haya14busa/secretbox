@@ -46,6 +46,10 @@ func run() error {
 		return nil
 	}
 
-	fmt.Fprintf(os.Stdout, "%s", s.Encrypt(data))
+	ciphertext, err := s.Encrypt(data)
+	if err != nil {
+		return err
+	}
+	fmt.Fprintf(os.Stdout, "%s", ciphertext)
 	return nil
 }

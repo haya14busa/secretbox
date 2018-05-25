@@ -13,7 +13,10 @@ func TestSecretBox(t *testing.T) {
 	}
 	plaintext := "vim vim vim"
 
-	ciphertext := s.Encrypt([]byte(plaintext))
+	ciphertext, err := s.Encrypt([]byte(plaintext))
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	b, err := s.Decrypt(ciphertext)
 	if err != nil {
@@ -35,7 +38,7 @@ func ExampleEncrypt() {
 	plaintext := "vim vim vim"
 
 	// Encrypt
-	ciphertext := s.Encrypt([]byte(plaintext))
+	ciphertext, _ := s.Encrypt([]byte(plaintext))
 
 	// Decrypt
 	b, err := s.Decrypt(ciphertext)

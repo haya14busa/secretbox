@@ -25,7 +25,7 @@ if err != nil {
 plaintext := "vim vim vim"
 
 // Encrypt
-ciphertext := s.Encrypt([]byte(plaintext))
+ciphertext, _ := s.Encrypt([]byte(plaintext))
 
 // Decrypt
 b, err := s.Decrypt(ciphertext)
