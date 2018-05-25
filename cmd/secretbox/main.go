@@ -38,9 +38,9 @@ func run() error {
 	}
 
 	if *decrypt {
-		ok, plaintxt := s.Decrypt(data)
-		if !ok {
-			return errors.New("failed to decrypt data")
+		plaintxt, err := s.Decrypt(data)
+		if err != nil {
+			return err
 		}
 		fmt.Fprintf(os.Stdout, "%s", plaintxt)
 		return nil

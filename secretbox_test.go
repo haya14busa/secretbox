@@ -1,7 +1,6 @@
 package secretbox
 
 import (
-	"errors"
 	"fmt"
 	"testing"
 )
@@ -16,9 +15,9 @@ func TestSecretBox(t *testing.T) {
 
 	ciphertext := s.Encrypt([]byte(plaintext))
 
-	ok, b := s.Decrypt(ciphertext)
-	if !ok {
-		t.Fatal("failed to decrypt a message")
+	b, err := s.Decrypt(ciphertext)
+	if err != nil {
+		t.Fatal(err)
 	}
 	got := string(b)
 
@@ -39,9 +38,9 @@ func ExampleEncrypt() {
 	ciphertext := s.Encrypt([]byte(plaintext))
 
 	// Decrypt
-	ok, b := s.Decrypt(ciphertext)
-	if !ok {
-		panic(errors.New(("failed to decrypt a message")))
+	b, err := s.Decrypt(ciphertext)
+	if err != nil {
+		panic(err)
 	}
 	fmt.Printf("%s", b)
 	// OUTPUT: vim vim vim

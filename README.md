@@ -28,10 +28,11 @@ plaintext := "vim vim vim"
 ciphertext := s.Encrypt([]byte(plaintext))
 
 // Decrypt
-ok, b := s.Decrypt(ciphertext)
-if !ok {
-  panic(errors.New(("failed to decrypt a message")))
+b, err := s.Decrypt(ciphertext)
+if err != nil {
+  panic(err)
 }
+
 fmt.Printf("%s", b)
 // OUTPUT: vim vim vim
 ```

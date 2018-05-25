@@ -5,6 +5,7 @@ package secretbox
 import (
 	"crypto/rand"
 	"encoding/hex"
+	"errors"
 	"io"
 
 	"golang.org/x/crypto/nacl/secretbox"
@@ -28,27 +29,27 @@ func NewFromHexKey(key string) (*SecretBox, error) {
 	return s, nil
 }
 
-func (s *SecretBox) Encrypt(msg []byte) []byte {
-	return Encrypt(msg, s.key)
+func (s *SecretBox) Encrypt(plaintext []byte) []byte {
+	return Encrypt(plaintext, s.key)
 }
 
-func (s *SecretBox) Decrypt(msg []byte) (bool, []byte) {
-	return Decrypt(msg, s.key)
+func (s *SecretBox) Decrypt(ciphertext []byte) ([]byte, error) {
+	return Decrypt(ciphertext, s.key)
 }
 
-func Encrypt(msg []byte, key [32]byte) []byte {
+func Encrypt(plaintext []byte, key [32]byte) []byte {
 	nonce := generateNonce()
-	return secretbox.Seal(nonce[:], msg, &nonce, &key)
+	return secretbox.Seal(nonce[:], plaintext, &nonce, &key)
 }
 
-func Decrypt(msg []byte, key [32]byte) (bool, []byte) {
+func Decrypt(ciphertext []byte, key [32]byte) ([]byte, error) {
 	var nonce [24]byte
-	copy(nonce[:], msg[:24])
-	decrypted, ok := secretbox.Open(nil, msg[24:], &nonce, &key)
+	copy(nonce[:], ciphertext[:24])
+	decrypted, ok := secretbox.Open(nil, ciphertext[24:], &nonce, &key)
 	if !ok {
-		return false, nil
+		return nil, errors.New("failed to decript given message")
 	}
-	return true, decrypted
+	return decrypted, nil
 }
 
 func generateNonce() [24]byte {
